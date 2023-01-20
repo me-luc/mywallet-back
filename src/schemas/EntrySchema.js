@@ -20,6 +20,6 @@ export const entrySchema = Joi.object({
 		"string.empty": `"type" cannot be an empty field`,
 		"string.min": `"type" should be bigger than 0`,
 		"any.required": `"type" is a required field`,
-		"string.valid": `"type" must be of "income" or "outcome"`,
+		"any.only": `"type" must be of "income" or "outcome"`,
 	}),
 });
