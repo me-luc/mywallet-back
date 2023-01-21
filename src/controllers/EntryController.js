@@ -14,7 +14,7 @@ export async function addNewEntry(req, res) {
 	try {
 		await usersCollection.findOneAndUpdate(
 			{ _id: new ObjectId(user._id) },
-			{ $push: { entries: entry } }
+			{ $push: { entries: { ...entry, date: Date.now() } } }
 		);
 
 		return res.sendStatus(200);

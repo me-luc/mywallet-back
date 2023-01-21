@@ -8,6 +8,8 @@ import { ObjectId } from "mongodb";
 export async function signIn(req, res) {
 	const { email, password } = req.body;
 
+	console.log(req.body);
+
 	try {
 		const foundUser = await usersCollection.findOne({ email });
 
