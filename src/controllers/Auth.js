@@ -79,13 +79,6 @@ export async function signUp(req, res) {
 export async function signOut(req, res) {
 	const { token } = req.body;
 
-	const validation = tokenSchema.validate(token);
-
-	if (validation.error) {
-		const errors = validation.error.details.map((detail) => detail.message);
-		return res.status(422).send(errors);
-	}
-
 	const result = await sessionsCollection.findOneAndDelete({ token });
 
 	return res.status(200).send(result);

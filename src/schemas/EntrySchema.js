@@ -15,7 +15,7 @@ export const entrySchema = Joi.object({
 		"any.required": `"price" is a required field`,
 	}),
 
-	type: Joi.string().valid(["income", "outcome"]).required().messages({
+	type: Joi.string().valid("income", "outcome").required().messages({
 		"string.base": `"type" should be a type of 'text'`,
 		"string.empty": `"type" cannot be an empty field`,
 		"string.min": `"type" should be bigger than 0`,
