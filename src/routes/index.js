@@ -1,4 +1,4 @@
 import authRouter from "./AuthRouter.js";
-import historyRouter from "./HistoryRouter.js";
+import entryRouter from "./EntryRouter.js";
 
-export { authRouter, historyRouter };
+export { authRouter, entryRouter };

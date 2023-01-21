@@ -60,7 +60,7 @@ export async function signUp(req, res) {
 			email,
 			name,
 			password: hashPassword,
-			history: [],
+			entries: [],
 		});
 
 		const token = uuid();

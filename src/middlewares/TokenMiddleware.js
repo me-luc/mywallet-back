@@ -4,6 +4,7 @@ import { tokenSchema } from "../schemas/TokenSchema.js";
 
 export async function checkTokenAuth(req, res, next) {
 	const { token } = req.headers;
+
 	try {
 		const foundUserSession = await sessionsCollection.findOne({ token });
 
@@ -12,6 +13,8 @@ export async function checkTokenAuth(req, res, next) {
 		const user = await usersCollection.findOne({
 			_id: new ObjectId(foundUserSession.userId),
 		});
+
+		if (!user) return res.status(404).send("Couldn't find user");
 
 		res.locals.user = user;
 
