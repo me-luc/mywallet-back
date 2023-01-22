@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { usersCollection } from "../config/database.js";
+import { getNowDate } from "../utils/Date.js";
 
 export async function getUserHistory(req, res) {
 	const user = res.locals.user;
@@ -14,7 +15,15 @@ export async function addNewEntry(req, res) {
 	try {
 		await usersCollection.findOneAndUpdate(
 			{ _id: new ObjectId(user._id) },
-			{ $push: { entries: { ...entry, date: Date.now() } } }
+			{
+				$push: {
+					entries: {
+						...entry,
+						formattedDate: getNowDate(),
+						date: Date.now(),
+					},
+				},
+			}
 		);
 
 		return res.sendStatus(200);

@@ -3,6 +3,7 @@ import { sessionsCollection, usersCollection } from "../config/database.js";
 import { tokenSchema } from "../schemas/TokenSchema.js";
 
 export async function checkTokenAuth(req, res, next) {
+	console.log("validating token auth");
 	const { token } = req.headers;
 
 	try {
@@ -26,6 +27,7 @@ export async function checkTokenAuth(req, res, next) {
 }
 
 export function validateTokenSchema() {
+	console.log("validating token properties");
 	return (req, res, next) => {
 		const { token } = req.headers;
 
