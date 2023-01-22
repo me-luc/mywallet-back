@@ -10,7 +10,6 @@ app.use(express.json());
 app.use(cors());
 app.use([authRouter, entryRouter, userRouter]);
 
-const PORT = process.env.PORT || 9191;
-app.listen(PORT, function () {
+app.listen(process.env.PORT || 9191, function () {
 	console.log(`server is running on port ${PORT}`);
 });
