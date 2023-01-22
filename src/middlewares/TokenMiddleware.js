@@ -6,10 +6,15 @@ export async function checkTokenAuth(req, res, next) {
 	console.log("validating token auth");
 	const { token } = req.headers;
 
+	console.log("HEADER", req.headers, "TOKEN ", token);
+	console.log("BODY", req.body);
+
 	try {
 		const foundUserSession = await sessionsCollection.findOne({ token });
 
 		if (!foundUserSession) return res.status(401).send("Invalid token");
+
+		console.log("user found -> ", foundUserSession);
 
 		const user = await usersCollection.findOne({
 			_id: new ObjectId(foundUserSession.userId),

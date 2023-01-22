@@ -11,13 +11,13 @@ const entryRouter = Router();
 
 entryRouter.get(
 	"/entries",
-	validateTokenSchema,
+	validateTokenSchema(),
 	checkTokenAuth,
 	getUserHistory
 );
 entryRouter.post(
 	"/entries",
-	validateTokenSchema,
+	validateTokenSchema(),
 	checkTokenAuth,
 	validateSchema(entrySchema),
 	addNewEntry

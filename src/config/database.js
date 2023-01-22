@@ -7,7 +7,7 @@ const db = await connectToDatabase();
 
 async function connectToDatabase() {
 	try {
-		const mongoClient = new MongoClient(process.env.DEV_URL, {
+		const mongoClient = new MongoClient(process.env.DATABASE_URL, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 			serverApi: ServerApiVersion.v1,
