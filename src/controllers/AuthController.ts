@@ -1,11 +1,12 @@
-import { userSchema } from "../schemas/UserSchema.js";
-import { tokenSchema } from "../schemas/TokenSchema.js";
-import { usersCollection, sessionsCollection } from "../config/database.js";
-import { v4 as uuid } from "uuid";
-import bcrypt from "bcrypt";
-import { ObjectId } from "mongodb";
+import { userSchema } from '../schemas/UserSchema.js';
+import { tokenSchema } from '../schemas/TokenSchema.js';
+import { Request, Response } from 'express';
+import { usersCollection, sessionsCollection } from '../config/database.js';
+import { v4 as uuid } from 'uuid';
+import bcrypt from 'bcrypt';
+import { ObjectId } from 'mongodb';
 
-export async function signIn(req, res) {
+export async function signIn(req: Request, res: Response) {
 	const { email, password } = req.body;
 
 	console.log(req.body);
@@ -13,14 +14,14 @@ export async function signIn(req, res) {
 	try {
 		const foundUser = await usersCollection.findOne({ email });
 
-		if (!foundUser) return res.status(401).send("Invalid data!");
+		if (!foundUser) return res.status(401).send('Invalid data!');
 
 		const isPasswordCorrect = await bcrypt.compare(
 			password,
 			foundUser.password
 		);
 
-		if (!isPasswordCorrect) return res.status(401).send("Invalid data!");
+		if (!isPasswordCorrect) return res.status(401).send('Invalid data!');
 
 		const userHasToken = await sessionsCollection.findOneAndDelete({
 			userId: new ObjectId(foundUser._id),
@@ -37,16 +38,18 @@ export async function signIn(req, res) {
 		return res.status(201).send(token);
 	} catch (error) {
 		console.log(error);
-		return res.status(500).send("server error");
+		return res.status(500).send('server error');
 	}
 }
 
-export async function signUp(req, res) {
+export async function signUp(req: Request, res: Response) {
 	const user = req.body;
 	const validation = userSchema.validate(user, { abortEarly: false });
 
 	if (validation.error) {
-		const errors = validation.error.details.map((detail) => detail.message);
+		const errors = validation.error.details.map(
+			(detail: { message: string }) => detail.message
+		);
 		return res.status(422).send(errors);
 	}
 
@@ -54,7 +57,7 @@ export async function signUp(req, res) {
 		const { email, password, name } = user;
 		const foundUser = await usersCollection.findOne({ email });
 
-		if (foundUser) return res.status(401).send("Invalid data");
+		if (foundUser) return res.status(401).send('Invalid data');
 
 		const hashPassword = await bcrypt.hash(password, 10);
 
@@ -74,11 +77,11 @@ export async function signUp(req, res) {
 
 		return res.status(201).send(token);
 	} catch (error) {
-		return res.status(500).send("server error");
+		return res.status(500).send('server error');
 	}
 }
 
-export async function signOut(req, res) {
+export async function signOut(req: Request, res: Response) {
 	const { token } = req.headers;
 
 	const result = await sessionsCollection.findOneAndDelete({ token });
