@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import middlewares from './app.middlewares';
 
 dotenv.config();
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 
 const app = express().use(...middlewares);
 
