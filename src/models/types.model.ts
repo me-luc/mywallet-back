@@ -13,7 +13,7 @@ export type Session = {
 
 export type Cashflow = {
 	title: string;
-	price: Number;
+	price: number;
 	type: CashflowType;
 	ownerId: string;
 };

@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { addNewEntry, getUserHistory } from '../controllers/entry.controller';
+import {
+	addNewEntry,
+	getUserHistory,
+} from '../controllers/cashflow.controller';
 import {
 	checkTokenAuth,
 	validateTokenSchema,
