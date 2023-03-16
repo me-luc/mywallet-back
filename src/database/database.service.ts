@@ -22,13 +22,11 @@ export async function connectToDatabase() {
 		collections.users = usersCollection;
 		collections.sessions = sessionsCollection;
 
+		if (!collections.users || !collections.sessions) {
+			throw new Error('Required collections are missing');
+		}
 		console.log(`Successfully connected to database: ${db.databaseName}`);
 	} catch (error) {
 		console.log('ERROR WHILE TRYING TO CONNECT TO DATABSE -> ', error);
 	}
 }
-
-const usersCollection = collections.users;
-const sessionsCollection = collections.sessions;
-
-export { usersCollection, sessionsCollection };

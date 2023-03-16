@@ -1,7 +1,7 @@
 import { userSchema } from '../schemas/UserSchema';
 import { tokenSchema } from '../schemas/TokenSchema';
 import { Request, Response } from 'express';
-import { usersCollection, sessionsCollection } from '../config/database';
+import { collections } from '../database/database.service';
 import { v4 as uuid } from 'uuid';
 import bcrypt from 'bcrypt';
 import { ObjectId } from 'mongodb';
@@ -12,30 +12,23 @@ export async function signIn(req: Request, res: Response) {
 	console.log(req.body);
 
 	try {
-		const foundUser = await usersCollection.findOne({ email });
-
-		if (!foundUser) return res.status(401).send('Invalid data!');
-
-		const isPasswordCorrect = await bcrypt.compare(
-			password,
-			foundUser.password
-		);
-
-		if (!isPasswordCorrect) return res.status(401).send('Invalid data!');
-
-		const userHasToken = await sessionsCollection.findOneAndDelete({
-			userId: new ObjectId(foundUser._id),
-		});
-
-		const token = uuid();
-
-		await sessionsCollection.insertOne({
-			userId: new ObjectId(foundUser._id),
-			date: Date.now(),
-			token,
-		});
-
-		return res.status(201).send(token);
+		// const foundUser = await collections.users.findOne({ email });
+		// if (!foundUser) return res.status(401).send('Invalid data!');
+		// const isPasswordCorrect = await bcrypt.compare(
+		// 	password,
+		// 	foundUser.password
+		// );
+		// if (!isPasswordCorrect) return res.status(401).send('Invalid data!');
+		// const userHasToken = await collections.sessions.findOneAndDelete({
+		// 	userId: new ObjectId(foundUser._id),
+		// });
+		// const token = uuid();
+		// await collections.sessions.insertOne({
+		// 	userId: new ObjectId(foundUser._id),
+		// 	date: Date.now(),
+		// 	token,
+		// });
+		//return res.status(201).send(token);
 	} catch (error) {
 		console.log(error);
 		return res.status(500).send('server error');
@@ -54,28 +47,22 @@ export async function signUp(req: Request, res: Response) {
 	}
 
 	try {
-		const { email, password, name } = user;
-		const foundUser = await usersCollection.findOne({ email });
-
-		if (foundUser) return res.status(401).send('Invalid data');
-
-		const hashPassword = await bcrypt.hash(password, 10);
-
-		const newUser = await usersCollection.insertOne({
-			email,
-			name,
-			password: hashPassword,
-			entries: [],
-		});
-
-		const token = uuid();
-
-		await sessionsCollection.insertOne({
-			userId: new ObjectId(newUser.insertedId),
-			token,
-		});
-
-		return res.status(201).send(token);
+		// const { email, password, name } = user;
+		// const foundUser = await collections.users.findOne({ email });
+		// if (foundUser) return res.status(401).send('Invalid data');
+		// const hashPassword = await bcrypt.hash(password, 10);
+		// const newUser = await collections.users.insertOne({
+		// 	email,
+		// 	name,
+		// 	password: hashPassword,
+		// 	entries: [],
+		// });
+		// const token = uuid();
+		// await collections.sessions.insertOne({
+		// 	userId: new ObjectId(newUser.insertedId),
+		// 	token,
+		// });
+		// return res.status(201).send(token);
 	} catch (error) {
 		return res.status(500).send('server error');
 	}
@@ -84,7 +71,7 @@ export async function signUp(req: Request, res: Response) {
 export async function signOut(req: Request, res: Response) {
 	const { token } = req.headers;
 
-	const result = await sessionsCollection.findOneAndDelete({ token });
+	// const result = await collections.sessions.findOneAndDelete({ token });
 
-	return res.status(200).send(result);
+	// return res.status(200).send(result);
 }

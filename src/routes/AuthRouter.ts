@@ -1,9 +1,9 @@
-import { Router, Request, Response } from 'express';
-import { signIn, signOut, signUp } from '../controllers/AuthController.js';
+import { Router } from 'express';
+import { signIn, signOut, signUp } from '../controllers/AuthController';
 import {
 	checkTokenAuth,
 	validateTokenSchema,
-} from '../middlewares/TokenMiddleware.js';
+} from '../middlewares/TokenMiddleware';
 
 const authRouter = Router();
 

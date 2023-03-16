@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { getUserData } from '../controllers/UserController.js';
+import { getUserData } from '../controllers/UserController';
 import {
 	checkTokenAuth,
 	validateTokenSchema,
-} from '../middlewares/TokenMiddleware.js';
+} from '../middlewares/TokenMiddleware';
 
 const userRouter = Router();
 
