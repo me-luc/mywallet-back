@@ -8,8 +8,7 @@ import { ObjectId } from 'mongodb';
 
 export async function signIn(req: Request, res: Response) {
 	const { email, password } = req.body;
-
-	console.log(req.body);
+	prisma.
 
 	try {
 		// const foundUser = await collections.users.findOne({ email });
