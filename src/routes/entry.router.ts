@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { addNewEntry, getUserHistory } from '../controllers/EntryController';
+import { addNewEntry, getUserHistory } from '../controllers/entry.controller';
 import {
 	checkTokenAuth,
 	validateTokenSchema,
-} from '../middlewares/TokenMiddleware';
-import { validateSchema } from '../middlewares/ValidateSchema';
-import { entrySchema } from '../schemas/EntrySchema';
+} from '../middlewares/token.middleware';
+import { validateSchema } from '../middlewares/schema.middleware';
+import { entrySchema } from '../schemas/entry.schema';
 
 const entryRouter = Router();
 

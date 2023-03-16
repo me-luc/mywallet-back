@@ -12,9 +12,9 @@ model Users {
   email     String @unique
   name      String
   password  String
-  cashflows Cashflows[]
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  cashflows Cashflows[]
+  sessions Sessions[]
 }
 
 model Cashflows {
@@ -25,6 +25,7 @@ model Cashflows {
   ownerId   String     @db.ObjectId
   owner     Users      @relation(fields: [ownerId], references: [id])
   createdAt DateTime  @default(now())
+  updatedAt DateTime @default(now())
 }
 
 enum CashflowType {
@@ -36,6 +37,7 @@ model Sessions {
   id    String    @id @default(auto()) @map("_id") @db.ObjectId
   token String
   date  DateTime
+  userId String @db.ObjectId
+  user Users @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
-  updatedAt DateTime
 }

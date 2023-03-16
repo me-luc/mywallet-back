@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { signIn, signOut, signUp } from '../controllers/AuthController';
+import { signIn, signOut, signUp } from '../controllers/auth.controller';
 import {
 	checkTokenAuth,
 	validateTokenSchema,
-} from '../middlewares/TokenMiddleware';
+} from '../middlewares/token.middleware';
 
 const authRouter = Router();
 
