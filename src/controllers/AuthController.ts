@@ -1,7 +1,7 @@
-import { userSchema } from '../schemas/UserSchema.js';
-import { tokenSchema } from '../schemas/TokenSchema.js';
+import { userSchema } from '../schemas/UserSchema';
+import { tokenSchema } from '../schemas/TokenSchema';
 import { Request, Response } from 'express';
-import { usersCollection, sessionsCollection } from '../config/database.js';
+import { usersCollection, sessionsCollection } from '../config/database';
 import { v4 as uuid } from 'uuid';
 import bcrypt from 'bcrypt';
 import { ObjectId } from 'mongodb';
