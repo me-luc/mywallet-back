@@ -1,12 +1,18 @@
 import { userSchema } from '../schemas/user.schema';
-import { tokenSchema } from '../schemas/token.schema';
 import { Request, Response } from 'express';
-import { collections } from '../database/database.service';
 import { v4 as uuid } from 'uuid';
 import bcrypt from 'bcrypt';
-import { ObjectId } from 'mongodb';
 import { create, findByEmail } from '../repository/users.repository';
 import { User } from '../models/types.model';
+import {
+	createSession,
+	deleteByToken,
+} from '../repository/sessions.repository';
+import { IncomingHttpHeaders } from 'http';
+
+interface CustomHeaders extends IncomingHttpHeaders {
+	token?: string;
+}
 
 export async function signIn(req: Request, res: Response) {
 	const { email, password } = req.body;
@@ -21,15 +27,9 @@ export async function signIn(req: Request, res: Response) {
 		);
 		if (!isPasswordCorrect) return res.status(401).send('Invalid data!');
 
-		const userHasToken = await collections.sessions.findOneAndDelete({
-			userId: new ObjectId(foundUser._id),
-		});
 		const token = uuid();
-		await collections.sessions.insertOne({
-			userId: new ObjectId(foundUser._id),
-			date: Date.now(),
-			token,
-		});
+
+		await createSession({ userId: foundUser.id, token });
 		return res.status(201).send(token);
 	} catch (error) {
 		console.log(error);
@@ -54,14 +54,11 @@ export async function signUp(req: Request, res: Response) {
 		if (foundUser) return res.status(401).send('Invalid data');
 
 		const hashPassword = await bcrypt.hash(password, 10);
-		const newUser = await create(user);
+		const newUser = await create({ ...user, password: hashPassword });
 
 		const token = uuid();
+		await createSession({ userId: newUser.id, token });
 
-		await collections.sessions.insertOne({
-			userId: new ObjectId(newUser.insertedId),
-			token,
-		});
 		return res.status(201).send(token);
 	} catch (error) {
 		return res.status(500).send('server error');
@@ -69,9 +66,11 @@ export async function signUp(req: Request, res: Response) {
 }
 
 export async function signOut(req: Request, res: Response) {
-	const { token } = req.headers;
+	const { token } = req.headers as CustomHeaders;
 
-	const result = await collections.sessions.findOneAndDelete({ token });
+	if (!token) return res.status(404).send('Token missing...');
+
+	const result = await deleteByToken(token);
 
 	return res.status(200).send(result);
 }

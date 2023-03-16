@@ -11,7 +11,7 @@ export async function findByToken(token: string) {
 	});
 }
 
-export async function create(session: Session) {
+export async function createSession(session: Session) {
 	return await sessions.create({
 		data: session,
 	});
@@ -21,6 +21,14 @@ export async function deleteById(id: string) {
 	return await sessions.delete({
 		where: {
 			id,
+		},
+	});
+}
+
+export async function deleteByToken(token: string) {
+	return await sessions.delete({
+		where: {
+			token,
 		},
 	});
 }
