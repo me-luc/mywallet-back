@@ -5,14 +5,14 @@ import { collections } from '../database/database.service';
 import { v4 as uuid } from 'uuid';
 import bcrypt from 'bcrypt';
 import { ObjectId } from 'mongodb';
-import { addNewUser, findUserByEmail } from '../repository/user.repository';
+import { create, findByEmail } from '../repository/users.repository';
 import { User } from '../models/types.model';
 
 export async function signIn(req: Request, res: Response) {
 	const { email, password } = req.body;
 
 	try {
-		const foundUser = await findUserByEmail(email);
+		const foundUser = await findByEmail(email);
 		if (!foundUser) return res.status(401).send('Invalid data!');
 
 		const isPasswordCorrect = await bcrypt.compare(
@@ -50,11 +50,11 @@ export async function signUp(req: Request, res: Response) {
 
 	try {
 		const { email, password, name } = user;
-		const foundUser = await findUserByEmail(email);
+		const foundUser = await findByEmail(email);
 		if (foundUser) return res.status(401).send('Invalid data');
 
 		const hashPassword = await bcrypt.hash(password, 10);
-		const newUser = await addNewUser(user);
+		const newUser = await create(user);
 
 		const token = uuid();
 

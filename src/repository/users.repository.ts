@@ -1,7 +1,7 @@
 import { prisma } from '../app';
 import { User } from '../models/types.model';
 
-export async function findUserByEmail(email: string) {
+export async function findByEmail(email: string) {
 	return await prisma.users.findUnique({
 		where: {
 			email,
@@ -9,7 +9,7 @@ export async function findUserByEmail(email: string) {
 	});
 }
 
-export async function addNewUser(user: User) {
+export async function create(user: User) {
 	return await prisma.users.create({
 		data: user,
 	});
