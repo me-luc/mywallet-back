@@ -10,7 +10,7 @@ const app = express().use(...middlewares);
 
 const PORT = process.env.PORT || 9191;
 app.listen(PORT, async function () {
-	connectToDatabase();
+	await connectToDatabase();
 	console.log(`server is running on port ${PORT}`);
 });
 

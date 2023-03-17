@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongodb';
-import { tokenSchema } from '../schemas/token.schema.js';
 import { Request, Response, NextFunction } from 'express';
 
 export async function checkTokenAuth(
