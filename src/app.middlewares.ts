@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { authRouter, entryRouter, userRouter } from './routes/index.js';
+import { authRouter, entryRouter, userRouter } from './routes/index';
 
 const middlewares = [
 	express.json(),

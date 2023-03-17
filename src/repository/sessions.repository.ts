@@ -1,10 +1,8 @@
 import { prisma } from '../app';
 import { Session } from '../models/types.model';
 
-const sessions = prisma.sessions;
-
 export async function findByToken(token: string) {
-	return await sessions.findUnique({
+	return await prisma.sessions.findUnique({
 		where: {
 			token,
 		},
@@ -12,13 +10,13 @@ export async function findByToken(token: string) {
 }
 
 export async function createSession(session: Session) {
-	return await sessions.create({
+	return await prisma.sessions.create({
 		data: session,
 	});
 }
 
 export async function deleteById(id: string) {
-	return await sessions.delete({
+	return await prisma.sessions.delete({
 		where: {
 			id,
 		},
@@ -26,7 +24,7 @@ export async function deleteById(id: string) {
 }
 
 export async function deleteByToken(token: string) {
-	return await sessions.delete({
+	return await prisma.sessions.delete({
 		where: {
 			token,
 		},
